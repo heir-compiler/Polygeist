@@ -5078,7 +5078,7 @@ MLIRASTConsumer::GetOrCreateMLIRFunction(const FunctionDecl *FD,
       NamedAttrList attrs(function->getAttrDictionary());
       attrs.set("llvm.linkage",
                 mlir::LLVM::LinkageAttr::get(builder.getContext(), lnk));
-      function->setAttrs(attrs.getDictionary(builder.getContext()));
+      // function->setAttrs(attrs.getDictionary(builder.getContext()));
       functionsToEmit.push_back(Def);
     }
     assert(function->getParentOp() == module.get());
@@ -5186,7 +5186,7 @@ MLIRASTConsumer::GetOrCreateMLIRFunction(const FunctionDecl *FD,
   NamedAttrList attrs(function->getAttrDictionary());
   attrs.set("llvm.linkage",
             mlir::LLVM::LinkageAttr::get(builder.getContext(), lnk));
-  function->setAttrs(attrs.getDictionary(builder.getContext()));
+  // function->setAttrs(attrs.getDictionary(builder.getContext()));
 
   functions[name] = function;
   module->push_back(function);
@@ -6015,18 +6015,18 @@ static bool parseMLIR(const char *Argv0, std::vector<std::string> filenames,
     llvm::Triple jobTriple = Clang->getTarget().getTriple();
     if (triple.str() == "" || !jobTriple.isNVPTX()) {
       triple = jobTriple;
-      module.get()->setAttr(
-          LLVM::LLVMDialect::getTargetTripleAttrName(),
-          StringAttr::get(module->getContext(),
-                          Clang->getTarget().getTriple().getTriple()));
-      DL = llvm::DataLayout(Clang->getTarget().getDataLayoutString());
-      module.get()->setAttr(
-          LLVM::LLVMDialect::getDataLayoutAttrName(),
-          StringAttr::get(module->getContext(),
-                          Clang->getTarget().getDataLayoutString()));
+      // module.get()->setAttr(
+      //     LLVM::LLVMDialect::getTargetTripleAttrName(),
+      //     StringAttr::get(module->getContext(),
+      //                     Clang->getTarget().getTriple().getTriple()));
+      // DL = llvm::DataLayout(Clang->getTarget().getDataLayoutString());
+      // module.get()->setAttr(
+      //     LLVM::LLVMDialect::getDataLayoutAttrName(),
+      //     StringAttr::get(module->getContext(),
+      //                     Clang->getTarget().getDataLayoutString()));
 
-      module.get()->setAttr(("dlti." + DataLayoutSpecAttr::kAttrKeyword).str(),
-                            translateDataLayout(DL, module->getContext()));
+      // module.get()->setAttr(("dlti." + DataLayoutSpecAttr::kAttrKeyword).str(),
+      //                       translateDataLayout(DL, module->getContext()));
 
       // Add target-cpu and target-features attributes to functions. If
       // we have a decl for the function and it has a target attribute then
@@ -6036,20 +6036,20 @@ static bool parseMLIR(const char *Argv0, std::vector<std::string> filenames,
       std::vector<std::string> Features =
           Clang->getTarget().getTargetOpts().Features;
 
-      if (!TargetCPU.empty()) {
-        module.get()->setAttr("polygeist.target-cpu",
-                              StringAttr::get(module->getContext(), TargetCPU));
-      }
-      if (!TuneCPU.empty()) {
-        module.get()->setAttr("polygeist.tune-cpu",
-                              StringAttr::get(module->getContext(), TuneCPU));
-      }
-      if (!Features.empty()) {
-        llvm::sort(Features);
-        module.get()->setAttr(
-            "polygeist.target-features",
-            StringAttr::get(module->getContext(), llvm::join(Features, ",")));
-      }
+      // if (!TargetCPU.empty()) {
+      //   module.get()->setAttr("polygeist.target-cpu",
+      //                         StringAttr::get(module->getContext(), TargetCPU));
+      // }
+      // if (!TuneCPU.empty()) {
+      //   module.get()->setAttr("polygeist.tune-cpu",
+      //                         StringAttr::get(module->getContext(), TuneCPU));
+      // }
+      // if (!Features.empty()) {
+      //   llvm::sort(Features);
+      //   module.get()->setAttr(
+      //       "polygeist.target-features",
+      //       StringAttr::get(module->getContext(), llvm::join(Features, ",")));
+      // }
     }
 
     // TODO investigate what AMDGCN and AMDGPU are, do we need them both?
