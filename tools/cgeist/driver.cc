@@ -547,7 +547,7 @@ int main(int argc, char **argv) {
           optPM.addPass(mlir::createLowerAffinePass());
         optPM.addPass(
             mlir::createCanonicalizerPass(canonicalizerConfig, {}, {}));
-        pm.addPass(mlir::createInlinerPass());
+        // pm.addPass(mlir::createInlinerPass());
         mlir::OpPassManager &optPM2 = pm.nest<mlir::func::FuncOp>();
         optPM2.addPass(
             mlir::createCanonicalizerPass(canonicalizerConfig, {}, {}));
